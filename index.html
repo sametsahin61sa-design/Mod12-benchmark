@@ -9,6 +9,7 @@
         .card { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 16px; border: 1px solid #334155; }
         button { background: #10b981; color: #0f172a; font-weight: bold; border: none; padding: 14px 20px; border-radius: 8px; cursor: pointer; font-size: 16px; width: 100%; }
         button:active { background: #34d399; }
+        .buy-btn { background: linear-gradient(90deg, #10b981, #38bdf8); color: #0f172a; font-size: 17px; margin-top: 10px; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
         .metric { font-size: 20px; font-weight: 800; color: #38bdf8; }
         .speedup { font-size: 24px; font-weight: 900; color: #10b981; margin-top: 14px; text-align: center; }
@@ -40,9 +41,10 @@
     </div>
 
     <div class="card cta-box">
-        <h3>🚀 Commercial License & C++/Rust SDK</h3>
+        <h3>🚀 Commercial License & C++20 Header SDK</h3>
         <p>Zero-division 1024-bit BigInt square root scaling & Mod-12⁶ hardware sieving for HFT, Cryptography, and ZK-Proofs.</p>
-        <button onclick="window.open('https://lemonsqueezy.com', '_blank')">Get Commercial License ($499)</button>
+        <p><small>✔ Instant C++20 Source Delivery &nbsp;|&nbsp; ✔ Royalty-Free License</small></p>
+        <button class="buy-btn" onclick="window.open('https://sahinscape5.gumroad.com/l/nkthgk', '_blank')">Get C++ SDK & License ($49+)</button>
     </div>
 
     <div class="card">
@@ -107,7 +109,7 @@
                     if (threeF <= lim1) {
                         curB = 3n * curB;
                         curF = 9n * curF;
-                    } else if (threeF <= 4n * curB - 2n) {
+                    } else if (threeF <= (b * 4n) - 2n) {
                         curB = 3n * curB - 1n;
                         curF = 9n * curF - 6n * curB - 5n;
                     } else {
