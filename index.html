@@ -104,26 +104,25 @@ document.querySelector('h3').innerText=isTr?'📊 Küresel Çoklu Çekirdek Sır
 document.getElementById('shareBtn').innerText=isTr?'📤 Skorumu Arkadaşlarımla Paylaş':'📤 Share My Benchmark Score';
 };
 <script>
-let isTr=false;
-document.getElementById('trBtn').onclick=function(){
-isTr=!isTr;
-this.innerText=isTr?'🇬🇧 English':'🇹🇷 Türkçe';
-document.querySelector('h2').innerText=isTr?'🏆 En Hızlı İşlemci Hangi Telefonda?':'🏆 Which Phone Has the Fastest CPU?';
-document.getElementById('runBtn').innerText=isTr?'▶ Tek & Çoklu Çekirdek Testini Başlat':'▶ Run Single & Multi-Core Stress Test';
-document.getElementById('shareBtn').innerText=isTr?'📤 Skorumu Arkadaşlarımla Paylaş':'📤 Share My Benchmark Score';
-const sm=document.querySelectorAll('small');
-if(sm[0])sm[0].innerText=isTr?'TEK ÇEKİRDEK':'SINGLE-CORE';
-if(sm[1])sm[1].innerText=isTr?'ÇOKLU ÇEKİRDEK':'MULTI-CORE';
-if(sm[2])sm[2].innerText=isTr?'L3 Önbellek':'L3 Cache';
-if(sm[3])sm[3].innerText=isTr?'1024-Bit ALU':'1024-Bit ALU';
-if(sm[4])sm[4].innerText=isTr?'Bit-Kaydırma':'Bit-Shift';
-const h3s=document.querySelectorAll('h3');
-if(h3s[0])h3s[0].innerText=isTr?'📊 Küresel Çoklu Çekirdek Sıralaması':'📊 Global Multi-Core Leaderboard';
-if(h3s[1])h3s[1].innerText=isTr?'🚀 Ticari C++20 Başlık Kütüphanesi (SDK)':'🚀 Commercial C++20 Header SDK';
-const p=document.querySelector('.card p');
-if(p)p.innerText=isTr?'Samet Şahin (2026) tarafından geliştirilen sıfır bölmeli 1024-bit karekök ve Mod-12⁶ L3-Önbellek motoru.':'Zero-division 1024-bit BigInt square root & Mod-12⁶ L3-Cache engine by Samet Sahin (2026).';
-const btns=document.querySelectorAll('button');
-if(btns[2])btns[2].innerText=isTr?'C++ SDK ve Ticari Lisans Al ($49+)':'Get C++ SDK & License ($49+)';
+let isTr = false;
+document.getElementById('trBtn').onclick = function() {
+    isTr = !isTr;
+    this.innerText = isTr ? '🇬🇧 English' : '🇹🇷 Türkçe';
+    document.querySelector('h2').innerText = isTr ? '🏆 En Hızlı İşlemci Hangi Telefonda?' : '🏆 Which Phone Has the Fastest CPU?';
+    document.getElementById('runBtn').innerText = isTr ? '▶ Tek & Çoklu Çekirdek Testini Başlat' : '▶ Run Single & Multi-Core Stress Test';
+    document.getElementById('shareBtn').innerText = isTr ? '📤 Skorumu Arkadaşlarımla Paylaş' : '📤 Share My Benchmark Score';
+    document.getElementById('status').innerText = isTr ? 'Tüm çekirdekleri test etmek için yukarıya dokunun' : 'Tap above to test all CPU cores';
+    const sm = document.querySelectorAll('small');
+    sm.item(0).innerText = isTr ? 'TEK ÇEKİRDEK' : 'SINGLE-CORE';
+    sm.item(1).innerText = isTr ? 'ÇOKLU ÇEKİRDEK' : 'MULTI-CORE';
+    sm.item(2).innerText = isTr ? 'L3 Önbellek' : 'L3 Cache';
+    sm.item(3).innerText = isTr ? '1024-Bit ALU' : '1024-Bit ALU';
+    sm.item(4).innerText = isTr ? 'Bit-Kaydırma' : 'Bit-Shift';
+    const h3s = document.querySelectorAll('h3');
+    h3s.item(0).innerText = isTr ? '📊 Küresel Çoklu Çekirdek Sıralaması' : '📊 Global Multi-Core Leaderboard';
+    h3s.item(1).innerText = isTr ? '🚀 Ticari C++20 Başlık Kütüphanesi (SDK)' : '🚀 Commercial C++20 Header SDK';
+    document.querySelector('.card p').innerText = isTr ? 'Samet Şahin (2026) tarafından geliştirilen sıfır bölmeli 1024-bit karekök ve Mod-12⁶ L3-Önbellek motoru.' : 'Zero-division 1024-bit BigInt square root & Mod-12⁶ L3-Cache engine by Samet Sahin (2026).';
+    document.querySelectorAll('button').item(2).innerText = isTr ? 'C++ SDK ve Ticari Lisans Al ($49+)' : 'Get C++ SDK & License ($49+)';
 };
 </script>
 </body>
