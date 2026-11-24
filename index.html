@@ -72,7 +72,7 @@ const ms3=Math.max(1,performance.now()-t3);
 const tWarm=performance.now();let w=0;for(let i=0;i<15000000;i++){if(mask[i%2985984])w++;}
 const msWarm=Math.max(1,performance.now()-tWarm);
 const stab=Math.min(99.8,Math.max(82,100-Math.abs((ms1*0.6)-msWarm)/3)).toFixed(1);
-finalS=Math.round(4900000/(ms1+ms2+ms3));
+finalS=Math.round(3600000/(ms1+ms2+ms3));
 finalM=Math.round(finalS*(cores*0.52)*(stab/100));
 document.getElementById('sCore').innerText=finalS.toLocaleString();
 document.getElementById('mCore').innerText=finalM.toLocaleString();
