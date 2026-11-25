@@ -36,6 +36,14 @@ input{width:100%;padding:10px;border-radius:8px;border:1px solid #475569;backgro
 <div class="diag" id="diagBox" style="display:none"></div>
 <button id="sh" style="background:#38bdf8;margin-top:10px;display:none">📤 Share My Score & Health Report</button>
 </div>
+<div class="card" id="histCard" style="display:none">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<h3 style="margin:0">📈 Device Test History & Stats</h3>
+<button id="clrHist" style="width:auto;padding:6px 10px;background:#334155;color:#fff;font-size:12px">Clear</button>
+</div>
+<div id="histStats" style="color:#38bdf8;font-size:13px;margin:8px 0"></div>
+<div id="histList"></div>
+</div>
 <div class="card">
 <h3>📊 Global Multi-Core Leaderboard</h3>
 <input type="text" id="q" placeholder="🔍 Search brand (Oppo, Xiaomi, iPhone, Samsung...)">
@@ -75,7 +83,20 @@ if(uM)all.push({n:'⭐ YOUR DEVICE ('+cores+' Cores)',s:uM,me:1});
 all.sort((a,b)=>b.s-a.s);
 document.getElementById('bd').innerHTML=all.filter(x=>x.me||x.n.toLowerCase().includes(q)).map(x=>'<div class="r'+(x.me?' me':'')+'"><span>#'+(all.indexOf(x)+1)+' '+x.n+'</span><span>'+x.s.toLocaleString()+' PTS</span></div>').join('');
 }
-draw('');
+function renderHist(){
+const h=JSON.parse(localStorage.getItem('sahin_hist')||'[]');
+const card=document.getElementById('histCard');
+if(!h.length){card.style.display='none';return;}
+card.style.display='block';
+const best=Math.max(...h.map(x=>x.m));
+const avg=Math.round(h.reduce((a,b)=>a+b.m,0)/h.length);
+let diff='';
+if(h.length>1){const d=h.m-h.m;diff=' | vs Last: '+(d>=0?'+':'')+d.toLocaleString()+' PTS';}
+document.getElementById('histStats').innerText='Runs: '+h.length+' | Best: '+best.toLocaleString()+' PTS | Avg: '+avg.toLocaleString()+' PTS'+diff;
+document.getElementById('histList').innerHTML=h.slice(0,5).map((x,i)=>'<div class="r"><span>#'+(i+1)+' ('+x.t+')</span><span>Single: '+x.s.toLocaleString()+' | Multi: '+x.m.toLocaleString()+' PTS</span></div>').join('');
+}
+draw('');renderHist();
+document.getElementById('clrHist').onclick=function(){localStorage.removeItem('sahin_hist');renderHist();};
 document.getElementById('q').oninput=function(){draw(this.value);};
 document.getElementById('go').onclick=function(){
 document.getElementById('st').innerText='Running CPU stress & hardware diagnostics...';
@@ -107,6 +128,10 @@ report+=(parseFloat(stab)>=90)?'✅ <strong>Cooling & Thermal:</strong> No therm
 report+=(uS>=4000)?'✅ <strong>Background Load:</strong> Clean CPU execution (no background lag).':'⚠️ <strong>CPU Load Warning:</strong> High background task or Power Saver active.';
 const db=document.getElementById('diagBox');db.innerHTML=report;db.style.display='block';
 document.getElementById('sh').style.display='block';
+const h=JSON.parse(localStorage.getItem('sahin_hist')||'[]');
+h.unshift({t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),s:uS,m:uM});
+localStorage.setItem('sahin_hist',JSON.stringify(h.slice(0,20)));
+renderHist();
 draw(document.getElementById('q').value);
 },60);
 };
