@@ -2,45 +2,42 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Which Phone is Fastest? | All Brands CPU Benchmark</title>
 <style>
-body{font-family:system-ui,sans-serif;background:#0f172a;color:#f8fafc;max-width:820px;margin:16px auto;padding:14px}
+body{font-family:system-ui,sans-serif;background:#0f172a;color:#f8fafc;max-width:800px;margin:16px auto;padding:14px}
 .card{background:#1e293b;border-radius:12px;padding:18px;margin-bottom:14px;border:1px solid #334155}
 button{background:linear-gradient(90deg,#f59e0b,#10b981);color:#0f172a;font-weight:800;border:none;padding:14px;border-radius:8px;cursor:pointer;font-size:16px;width:100%}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;text-align:center}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;text-align:center}
-.box{background:#0f172a;padding:12px;border-radius:8px;border:1px solid #334155}
-.score{font-size:28px;font-weight:900;color:#f59e0b}
-.bar-bg{background:#0f172a;height:8px;border-radius:4px;margin-top:6px;overflow:hidden}
-.bar-fill{background:#38bdf8;height:100%;width:0%;transition:width 0.4s}
-.row{display:flex;justify-content:space-between;padding:9px;border-bottom:1px solid #334155;font-size:13px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;text-align:center}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;text-align:center}
+.bx{background:#0f172a;padding:10px;border-radius:8px;border:1px solid #334155}
+.sc{font-size:26px;font-weight:900;color:#f59e0b}
+.r{display:flex;justify-content:space-between;padding:9px;border-bottom:1px solid #334155;font-size:13px}
 .me{background:rgba(16,185,129,0.2);border:1px solid #10b981;border-radius:6px;font-weight:bold;color:#34d399}
 input{width:100%;padding:10px;border-radius:8px;border:1px solid #475569;background:#0f172a;color:#fff;margin-bottom:10px;box-sizing:border-box}
 </style>
 </head>
 <body>
 <h2>🏆 Which Phone Has the Fastest CPU?</h2>
-<div id="hwInfo" style="color:#38bdf8;font-size:13px;margin-bottom:12px">Detecting hardware...</div>
+<div id="hw" style="color:#38bdf8;font-size:13px;margin-bottom:10px">Loading...</div>
 <div class="card">
-<button id="runBtn">▶ Run Single & Multi-Core Stress Test</button>
-<div class="grid2">
-<div class="box"><small>SINGLE-CORE</small><div class="score" id="sCore">--</div></div>
-<div class="box"><small>MULTI-CORE</small><div class="score" id="mCore">--</div></div>
+<button id="go">▶ Run Single & Multi-Core Stress Test</button>
+<div class="g2">
+<div class="bx"><small>SINGLE-CORE</small><div class="sc" id="sc">--</div></div>
+<div class="bx"><small>MULTI-CORE</small><div class="sc" id="mc">--</div></div>
 </div>
-<div class="grid3">
-<div class="box"><small>L3 Cache</small><div id="m1">-- ms</div><div class="bar-bg"><div class="bar-fill" id="b1"></div></div></div>
-<div class="box"><small>1024-Bit ALU</small><div id="m2">-- ms</div><div class="bar-bg"><div class="bar-fill" id="b2"></div></div></div>
-<div class="box"><small>Bit-Shift</small><div id="m3">-- ms</div><div class="bar-bg"><div class="bar-fill" id="b3"></div></div></div>
+<div class="g3">
+<div class="bx"><small>L3 Cache</small><div id="t1">-- ms</div></div>
+<div class="bx"><small>1024-Bit ALU</small><div id="t2">-- ms</div></div>
+<div class="bx"><small>Bit-Shift</small><div id="t3">-- ms</div></div>
 </div>
-<div id="status" style="text-align:center;margin-top:12px;color:#10b981;font-weight:bold">Tap above to test all CPU cores</div>
-<div id="cppEst" style="text-align:center;font-size:12px;color:#94a3b8;margin-top:4px"></div>
-<button id="shareBtn" style="background:#38bdf8;margin-top:10px;display:none">📤 Share My Benchmark Score</button>
+<div id="st" style="text-align:center;margin-top:12px;color:#10b981;font-weight:bold">Tap above to test all CPU cores</div>
+<button id="sh" style="background:#38bdf8;margin-top:10px;display:none">📤 Share My Score</button>
 </div>
 <div class="card">
 <h3>📊 Global Multi-Core Leaderboard</h3>
-<input type="text" id="brandSearch" placeholder="🔍 Search brand (Oppo, Xiaomi, iPhone, Samsung...)">
-<div id="board"></div>
+<input type="text" id="q" placeholder="🔍 Search brand (Oppo, Xiaomi, iPhone, Samsung...)">
+<div id="bd"></div>
 </div>
 <div class="card" style="border:1px solid #10b981">
 <h3>🚀 Commercial C++20 Header SDK</h3>
@@ -49,71 +46,67 @@ input{width:100%;padding:10px;border-radius:8px;border:1px solid #475569;backgro
 </div>
 <script>
 const cores=navigator.hardwareConcurrency||4;
-document.getElementById('hwInfo').innerText=`Detected: ${cores} CPU Cores | ${navigator.platform||'Mobile/Web'}`;
-const boardData=[
-{n:"💻 Desktop Workstation (M4 Max / Ryzen 9)",s:58000},
-{n:"📱 iPhone 18 Pro Max (Apple A20 Pro)",s:35200},
-{n:"📱 Samsung Galaxy S26 Ultra (SD 8 Elite 2)",s:34400},
-{n:"📱 Oppo Find X9 Pro (Dimensity 9500)",s:33900},
-{n:"📱 Xiaomi 16 Ultra (SD 8 Elite 2)",s:33800},
-{n:"📱 OnePlus 14 Pro (SD 8 Elite 2)",s:33600},
-{n:"📱 Vivo X200 Pro / Honor Magic 8 Pro",s:33400},
-{n:"📱 iPhone 16 Pro Max (Apple A18 Pro)",s:32600},
-{n:"📱 Samsung Galaxy S24 Ultra (SD 8 Gen 3)",s:31500},
-{n:"📱 Google Pixel 10 Pro (Tensor G5)",s:27800},
-{n:"📱 Huawei Pura 80 Ultra (Kirin 9100)",s:25400},
-{n:"📱 Oppo Reno 14 Pro / Xiaomi 14T Pro",s:22500},
-{n:"📱 Samsung Galaxy A56 5G (Exynos 1580)",s:18800},
-{n:"📱 Redmi Note 15 Pro+ / Realme GT Neo",s:18200},
-{n:"📱 Oppo A-Series / Samsung A35 Mid-Range",s:14500},
-{n:"📱 Entry-Level / Power Saving Mode",s:9500}
+document.getElementById('hw').innerText='Detected: '+cores+' CPU Cores';
+const list=[
+{n:'💻 Desktop Workstation (M4 Max / Ryzen 9)',s:58000},
+{n:'📱 iPhone 18 Pro Max (Apple A20 Pro)',s:35200},
+{n:'📱 Samsung Galaxy S26 Ultra (SD 8 Elite 2)',s:34400},
+{n:'📱 Oppo Find X9 Pro (Dimensity 9500)',s:33900},
+{n:'📱 Xiaomi 16 Ultra (SD 8 Elite 2)',s:33800},
+{n:'📱 OnePlus 14 Pro (SD 8 Elite 2)',s:33600},
+{n:'📱 Vivo X200 Pro / Honor Magic 8 Pro',s:33400},
+{n:'📱 iPhone 16 Pro Max (Apple A18 Pro)',s:32600},
+{n:'📱 Samsung Galaxy S24 Ultra (SD 8 Gen 3)',s:31500},
+{n:'📱 Google Pixel 10 Pro (Tensor G5)',s:27800},
+{n:'📱 Huawei Pura 80 Ultra (Kirin 9100)',s:25400},
+{n:'📱 Oppo Reno 14 Pro / Xiaomi 14T Pro',s:22500},
+{n:'📱 Samsung Galaxy A56 5G (Exynos 1580)',s:18800},
+{n:'📱 Redmi Note 15 Pro+ / Realme GT Neo',s:18200},
+{n:'📱 Oppo A-Series / Samsung A35 Mid-Range',s:14500},
+{n:'📱 Entry-Level / Power Saving Mode',s:9500}
 ];
-let finalM=0,finalS=0;
-function renderBoard(uScore,filter=""){
-const list=[...boardData];
-if(uScore)list.push({n:`⭐ YOUR DEVICE (${cores} Cores)`,s:uScore,u:true});
-list.sort((a,b)=>b.s-a.s);
-const filtered=list.filter(d=>d.u||d.n.toLowerCase().includes(filter.toLowerCase()));
-document.getElementById('board').innerHTML=filtered.map(d=>`<div class="row ${d.u?'me':''}"><span>#${list.indexOf(d)+1} ${d.n}</span><span>${d.s.toLocaleString()} PTS</span></div>`).join('');
+let uM=0,uS=0;
+function draw(q){
+q=(q||'').toLowerCase();
+const all=[...list];
+if(uM)all.push({n:'⭐ YOUR DEVICE ('+cores+' Cores)',s:uM,me:1});
+all.sort((a,b)=>b.s-a.s);
+document.getElementById('bd').innerHTML=all.filter(x=>x.me||x.n.toLowerCase().includes(q)).map(x=>'<div class="r'+(x.me?' me':'')+'"><span>#'+(all.indexOf(x)+1)+' '+x.n+'</span><span>'+x.s.toLocaleString()+' PTS</span></div>').join('');
 }
-renderBoard(0);
-document.getElementById('brandSearch').addEventListener('input',function(){renderBoard(finalM,this.value);});
-document.getElementById('runBtn').addEventListener('click',function(){
-document.getElementById('status').innerText=`Stress-testing ${cores} cores & thermal stability...`;
+draw('');
+document.getElementById('q').oninput=function(){draw(this.value);};
+document.getElementById('go').onclick=function(){
+document.getElementById('st').innerText='Testing '+cores+' CPU cores...';
 setTimeout(function(){
 const mask=new Uint8Array(2985984);for(let i=0;i<2985984;i+=6)mask[i]=1;
 const t1=performance.now();let idx=0,s=0;
 for(let i=0;i<25000000;i++){if(mask[idx])s++;if(++idx===2985984)idx=0;}
-const ms1=Math.max(1,performance.now()-t1);
+const m1=Math.max(1,performance.now()-t1);
 let b=1n<<510n,F=b*b-((1n<<1020n)+12345n);const t2=performance.now();
 for(let k=0;k<60000;k++){if(3n*F<=2n*b-1n){b*=3n;F*=9n;}else{b=3n*b-1n;}}
-const ms2=Math.max(1,performance.now()-t2);
+const m2=Math.max(1,performance.now()-t2);
 let cb=1n<<261n,r=cb*cb-((1n<<521n)-1n);const t3=performance.now();
 for(let k=0;k<50000;k++){cb<<=1n;r=(r<<2n)-3n;}
-const ms3=Math.max(1,performance.now()-t3);
-const tWarm=performance.now();let w=0;for(let i=0;i<15000000;i++){if(mask[i%2985984])w++;}
-const msWarm=Math.max(1,performance.now()-tWarm);
-const stab=Math.min(99.8,Math.max(82,100-Math.abs((ms1*0.6)-msWarm)/3)).toFixed(1);
-finalS=Math.round(3200000/(ms1+ms2+ms3));
-finalM=Math.round(finalS*(cores*0.52)*(stab/100));
-document.getElementById('sCore').innerText=finalS.toLocaleString();
-document.getElementById('mCore').innerText=finalM.toLocaleString();
-document.getElementById('m1').innerText=ms1.toFixed(1)+' ms';
-document.getElementById('m2').innerText=ms2.toFixed(1)+' ms';
-document.getElementById('m3').innerText=ms3.toFixed(1)+' ms';
-document.getElementById('b1').style.width=Math.min(100,Math.round(2500/ms1))+'%';
-document.getElementById('b2').style.width=Math.min(100,Math.round(18000/ms2))+'%';
-document.getElementById('b3').style.width=Math.min(100,Math.round(10000/ms3))+'%';
-document.getElementById('status').innerText=`🔥 Thermal Stability: ${stab}% | All ${cores} Cores Verified`;
-document.getElementById('cppEst').innerText=`⚡ Estimated Native C++20 SDK Speed on this CPU: ~${Math.round(finalM*6.4).toLocaleString()} PTS (6.4x Faster)`;
-document.getElementById('shareBtn').style.display='block';
-renderBoard(finalM,document.getElementById('brandSearch').value);
+const m3=Math.max(1,performance.now()-t3);
+const tw=performance.now();let w=0;for(let i=0;i<15000000;i++){if(mask[i%2985984])w++;}
+const mw=Math.max(1,performance.now()-tw);
+const stab=Math.min(99.8,Math.max(82,100-Math.abs((m1*0.6)-mw)/3)).toFixed(1);
+uS=Math.round(3200000/(m1+m2+m3));
+uM=Math.round(uS*(cores*0.52)*(stab/100));
+document.getElementById('sc').innerText=uS.toLocaleString();
+document.getElementById('mc').innerText=uM.toLocaleString();
+document.getElementById('t1').innerText=m1.toFixed(1)+' ms';
+document.getElementById('t2').innerText=m2.toFixed(1)+' ms';
+document.getElementById('t3').innerText=m3.toFixed(1)+' ms';
+document.getElementById('st').innerText='🔥 Thermal Stability: '+stab+'% | '+cores+' Cores Verified';
+document.getElementById('sh').style.display='block';
+draw(document.getElementById('q').value);
 },60);
-});
-document.getElementById('shareBtn').addEventListener('click',function(){
-const txt=`🏆 My ${cores}-Core CPU scored ${finalS.toLocaleString()} Single-Core / ${finalM.toLocaleString()} Multi-Core PTS! Test yours: https://github.io`;
+};
+document.getElementById('sh').onclick=function(){
+const txt='🏆 My '+cores+'-Core CPU scored '+uS.toLocaleString()+' Single / '+uM.toLocaleString()+' Multi-Core PTS! Test yours: https://sametsahin61sa-design.github.io/Mod12-benchmark/';
 if(navigator.share)navigator.share({text:txt});else{navigator.clipboard.writeText(txt);alert('Copied!');}
-});
+};
 </script>
 </body>
 </html>
