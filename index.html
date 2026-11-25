@@ -92,38 +92,6 @@ document.getElementById('shareBtn').addEventListener('click',function(){
 const txt=`🏆 My ${cores}-Core CPU scored ${finalS.toLocaleString()} Single-Core / ${finalM.toLocaleString()} Multi-Core PTS! Test yours: https://github.io`;
 if(navigator.share)navigator.share({text:txt});else{navigator.clipboard.writeText(txt);alert('Copied!');}
 });
-</script><button id="trBtn" style="position:fixed;top:10px;right:10px;width:auto;padding:8px 12px;background:#334155;color:#fff;border:1px solid #475569;border-radius:8px;font-size:13px;z-index:999">🇹🇷 Türkçe</button>
-<script>
-let isTr=false;
-document.getElementById('trBtn').onclick=function(){
-isTr=!isTr;
-this.innerText=isTr?'🇬🇧 English':'🇹🇷 Türkçe';
-document.querySelector('h2').innerText=isTr?'🏆 En Hızlı İşlemci Hangi Telefonda?':'🏆 Which Phone Has the Fastest CPU?';
-document.getElementById('runBtn').innerText=isTr?'▶ Tek & Çoklu Çekirdek Testini Başlat':'▶ Run Single & Multi-Core Stress Test';
-document.querySelector('h3').innerText=isTr?'📊 Küresel Çoklu Çekirdek Sıralaması':'📊 Global Multi-Core Leaderboard';
-document.getElementById('shareBtn').innerText=isTr?'📤 Skorumu Arkadaşlarımla Paylaş':'📤 Share My Benchmark Score';
-};
-<script>
-let isTr = false;
-document.getElementById('trBtn').onclick = function() {
-    isTr = !isTr;
-    this.innerText = isTr ? '🇬🇧 English' : '🇹🇷 Türkçe';
-    document.querySelector('h2').innerText = isTr ? '🏆 En Hızlı İşlemci Hangi Telefonda?' : '🏆 Which Phone Has the Fastest CPU?';
-    document.getElementById('runBtn').innerText = isTr ? '▶ Tek & Çoklu Çekirdek Testini Başlat' : '▶ Run Single & Multi-Core Stress Test';
-    document.getElementById('shareBtn').innerText = isTr ? '📤 Skorumu Arkadaşlarımla Paylaş' : '📤 Share My Benchmark Score';
-    document.getElementById('status').innerText = isTr ? 'Tüm çekirdekleri test etmek için yukarıya dokunun' : 'Tap above to test all CPU cores';
-    const sm = document.querySelectorAll('small');
-    sm.item(0).innerText = isTr ? 'TEK ÇEKİRDEK' : 'SINGLE-CORE';
-    sm.item(1).innerText = isTr ? 'ÇOKLU ÇEKİRDEK' : 'MULTI-CORE';
-    sm.item(2).innerText = isTr ? 'L3 Önbellek' : 'L3 Cache';
-    sm.item(3).innerText = isTr ? '1024-Bit ALU' : '1024-Bit ALU';
-    sm.item(4).innerText = isTr ? 'Bit-Kaydırma' : 'Bit-Shift';
-    const h3s = document.querySelectorAll('h3');
-    h3s.item(0).innerText = isTr ? '📊 Küresel Çoklu Çekirdek Sıralaması' : '📊 Global Multi-Core Leaderboard';
-    h3s.item(1).innerText = isTr ? '🚀 Ticari C++20 Başlık Kütüphanesi (SDK)' : '🚀 Commercial C++20 Header SDK';
-    document.querySelector('.card p').innerText = isTr ? 'Samet Şahin (2026) tarafından geliştirilen sıfır bölmeli 1024-bit karekök ve Mod-12⁶ L3-Önbellek motoru.' : 'Zero-division 1024-bit BigInt square root & Mod-12⁶ L3-Cache engine by Samet Sahin (2026).';
-    document.querySelectorAll('button').item(2).innerText = isTr ? 'C++ SDK ve Ticari Lisans Al ($49+)' : 'Get C++ SDK & License ($49+)';
-};
 </script>
 </body>
 </html>
