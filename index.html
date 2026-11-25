@@ -36,7 +36,9 @@ button{background:linear-gradient(90deg,#f59e0b,#10b981);color:#0f172a;font-weig
 <div id="cppEst" style="text-align:center;font-size:12px;color:#94a3b8;margin-top:4px"></div>
 <button id="shareBtn" style="background:#38bdf8;margin-top:10px;display:none">📤 Share My Benchmark Score</button>
 </div>
-<div class="card"><h3>📊 Global Multi-Core Leaderboard</h3><div id="board"></div></div>
+<div class="card"><h3>📊 Global Multi-Core Leaderboard</h3><div class="card"><h3>📊 Global Multi-Core Leaderboard</h3>
+<input type="text" id="brandSearch" placeholder="🔍 Search brand (Oppo, Xiaomi, iPhone, Samsung...)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #475569;background:#0f172a;color:#fff;margin-bottom:10px;box-sizing:border-box">
+<div id="board"></div></div>
 <div class="card" style="border:1px solid #10b981"><h3>🚀 Commercial C++20 Header SDK</h3>
 <p style="font-size:14px">Zero-division 1024-bit BigInt square root & Mod-12⁶ L3-Cache engine by Samet Sahin (2026).</p>
 <button style="background:linear-gradient(90deg,#10b981,#38bdf8)" onclick="window.open('https://gumroad.com')">Get C++ SDK & License ($49+)</button></div>
@@ -44,11 +46,33 @@ button{background:linear-gradient(90deg,#f59e0b,#10b981);color:#0f172a;font-weig
 const cores=navigator.hardwareConcurrency||4;
 document.getElementById('hwInfo').innerText=`Detected: ${cores} CPU Cores | ${navigator.platform||'Mobile/Web'}`;
 const boardData=[
-{n:"💻 Desktop Workstation (16-Core)",s:58000},{n:"📱 iPhone 18 Pro (6-Core)",s:34500},
-{n:"📱 Galaxy S26 Ultra (8-Core)",s:33800},{n:"📱 Galaxy S24 Ultra (8-Core)",s:31500},
-{n:"📱 Mid-Range Phone (8-Core)",s:18500},{n:"📱 Entry-Level Phone",s:9500}
+{n:"💻 Desktop Workstation (M4 Max / Ryzen 9)",s:58000},
+{n:"📱 iPhone 18 Pro Max (Apple A20 Pro)",s:35200},
+{n:"📱 Samsung Galaxy S26 Ultra (SD 8 Elite 2)",s:34400},
+{n:"📱 Oppo Find X9 Pro (Dimensity 9500)",s:33900},
+{n:"📱 Xiaomi 16 Ultra (SD 8 Elite 2)",s:33800},
+{n:"📱 OnePlus 14 Pro (SD 8 Elite 2)",s:33600},
+{n:"📱 Vivo X200 Pro / Honor Magic 8 Pro",s:33400},
+{n:"📱 iPhone 16 Pro Max (Apple A18 Pro)",s:32600},
+{n:"📱 Samsung Galaxy S24 Ultra (SD 8 Gen 3)",s:31500},
+{n:"📱 Google Pixel 10 Pro (Tensor G5)",s:27800},
+{n:"📱 Huawei Pura 80 Ultra (Kirin 9100)",s:25400},
+{n:"📱 Oppo Reno 14 Pro / Xiaomi 14T Pro",s:22500},
+{n:"📱 Samsung Galaxy A56 5G (Exynos 1580)",s:18800},
+{n:"📱 Redmi Note 15 Pro+ / Realme GT Neo",s:18200},
+{n:"📱 Oppo A-Series / Samsung A35 Mid-Range",s:14500},
+{n:"📱 Entry-Level / Power Saving Mode",s:9500}
 ];
-function renderBoard(uScore){
+function renderBoard(uScore,filter=""){
+const list=[...boardData];
+if(uScore)list.push({n:`⭐ YOUR DEVICE (${cores} Cores)`,s:uScore,u:true});
+list.sort((a,b)=>b.s-a.s);
+const filtered=list.filter(d=>d.u||d.n.toLowerCase().includes(filter.toLowerCase()));
+document.getElementById('board').innerHTML=filtered.map((d,i)=>`<div class="row ${d.u?'me':''}"><span>#${list.indexOf(d)+1} ${d.n}</span><span>${d.s.toLocaleString()} PTS</span></div>`).join('');
+}
+renderBoard(0);
+document.getElementById('brandSearch').addEventListener('input',function(){renderBoard(finalM,this.value);});
+
 const list=[...boardData];
 if(uScore)list.push({n:`⭐ YOUR DEVICE (${cores} Cores)`,s:uScore,u:true});
 list.sort((a,b)=>b.s-a.s);
