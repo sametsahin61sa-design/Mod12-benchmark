@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Which Phone is Fastest? | Single & Multi-Core Benchmark</title>
+<title>Which Phone is Fastest? | All Brands CPU Benchmark</title>
 <style>
 body{font-family:system-ui,sans-serif;background:#0f172a;color:#f8fafc;max-width:820px;margin:16px auto;padding:14px}
 .card{background:#1e293b;border-radius:12px;padding:18px;margin-bottom:14px;border:1px solid #334155}
@@ -16,6 +16,7 @@ button{background:linear-gradient(90deg,#f59e0b,#10b981);color:#0f172a;font-weig
 .bar-fill{background:#38bdf8;height:100%;width:0%;transition:width 0.4s}
 .row{display:flex;justify-content:space-between;padding:9px;border-bottom:1px solid #334155;font-size:13px}
 .me{background:rgba(16,185,129,0.2);border:1px solid #10b981;border-radius:6px;font-weight:bold;color:#34d399}
+input{width:100%;padding:10px;border-radius:8px;border:1px solid #475569;background:#0f172a;color:#fff;margin-bottom:10px;box-sizing:border-box}
 </style>
 </head>
 <body>
@@ -36,12 +37,16 @@ button{background:linear-gradient(90deg,#f59e0b,#10b981);color:#0f172a;font-weig
 <div id="cppEst" style="text-align:center;font-size:12px;color:#94a3b8;margin-top:4px"></div>
 <button id="shareBtn" style="background:#38bdf8;margin-top:10px;display:none">📤 Share My Benchmark Score</button>
 </div>
-<div class="card"><h3>📊 Global Multi-Core Leaderboard</h3><div class="card"><h3>📊 Global Multi-Core Leaderboard</h3>
-<input type="text" id="brandSearch" placeholder="🔍 Search brand (Oppo, Xiaomi, iPhone, Samsung...)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #475569;background:#0f172a;color:#fff;margin-bottom:10px;box-sizing:border-box">
-<div id="board"></div></div>
-<div class="card" style="border:1px solid #10b981"><h3>🚀 Commercial C++20 Header SDK</h3>
+<div class="card">
+<h3>📊 Global Multi-Core Leaderboard</h3>
+<input type="text" id="brandSearch" placeholder="🔍 Search brand (Oppo, Xiaomi, iPhone, Samsung...)">
+<div id="board"></div>
+</div>
+<div class="card" style="border:1px solid #10b981">
+<h3>🚀 Commercial C++20 Header SDK</h3>
 <p style="font-size:14px">Zero-division 1024-bit BigInt square root & Mod-12⁶ L3-Cache engine by Samet Sahin (2026).</p>
-<button style="background:linear-gradient(90deg,#10b981,#38bdf8)" onclick="window.open('https://gumroad.com')">Get C++ SDK & License ($49+)</button></div>
+<button style="background:linear-gradient(90deg,#10b981,#38bdf8)" onclick="window.open('https://gumroad.com')">Get C++ SDK & License ($49+)</button>
+</div>
 <script>
 const cores=navigator.hardwareConcurrency||4;
 document.getElementById('hwInfo').innerText=`Detected: ${cores} CPU Cores | ${navigator.platform||'Mobile/Web'}`;
@@ -63,23 +68,16 @@ const boardData=[
 {n:"📱 Oppo A-Series / Samsung A35 Mid-Range",s:14500},
 {n:"📱 Entry-Level / Power Saving Mode",s:9500}
 ];
+let finalM=0,finalS=0;
 function renderBoard(uScore,filter=""){
 const list=[...boardData];
 if(uScore)list.push({n:`⭐ YOUR DEVICE (${cores} Cores)`,s:uScore,u:true});
 list.sort((a,b)=>b.s-a.s);
 const filtered=list.filter(d=>d.u||d.n.toLowerCase().includes(filter.toLowerCase()));
-document.getElementById('board').innerHTML=filtered.map((d,i)=>`<div class="row ${d.u?'me':''}"><span>#${list.indexOf(d)+1} ${d.n}</span><span>${d.s.toLocaleString()} PTS</span></div>`).join('');
+document.getElementById('board').innerHTML=filtered.map(d=>`<div class="row ${d.u?'me':''}"><span>#${list.indexOf(d)+1} ${d.n}</span><span>${d.s.toLocaleString()} PTS</span></div>`).join('');
 }
 renderBoard(0);
 document.getElementById('brandSearch').addEventListener('input',function(){renderBoard(finalM,this.value);});
-
-const list=[...boardData];
-if(uScore)list.push({n:`⭐ YOUR DEVICE (${cores} Cores)`,s:uScore,u:true});
-list.sort((a,b)=>b.s-a.s);
-document.getElementById('board').innerHTML=list.map((d,i)=>`<div class="row ${d.u?'me':''}"><span>#${i+1} ${d.n}</span><span>${d.s.toLocaleString()} PTS</span></div>`).join('');
-}
-renderBoard(0);
-let finalM=0,finalS=0;
 document.getElementById('runBtn').addEventListener('click',function(){
 document.getElementById('status').innerText=`Stress-testing ${cores} cores & thermal stability...`;
 setTimeout(function(){
@@ -96,7 +94,7 @@ const ms3=Math.max(1,performance.now()-t3);
 const tWarm=performance.now();let w=0;for(let i=0;i<15000000;i++){if(mask[i%2985984])w++;}
 const msWarm=Math.max(1,performance.now()-tWarm);
 const stab=Math.min(99.8,Math.max(82,100-Math.abs((ms1*0.6)-msWarm)/3)).toFixed(1);
-finalS=Math.round(3600000/(ms1+ms2+ms3));
+finalS=Math.round(3200000/(ms1+ms2+ms3));
 finalM=Math.round(finalS*(cores*0.52)*(stab/100));
 document.getElementById('sCore').innerText=finalS.toLocaleString();
 document.getElementById('mCore').innerText=finalM.toLocaleString();
@@ -109,7 +107,7 @@ document.getElementById('b3').style.width=Math.min(100,Math.round(10000/ms3))+'%
 document.getElementById('status').innerText=`🔥 Thermal Stability: ${stab}% | All ${cores} Cores Verified`;
 document.getElementById('cppEst').innerText=`⚡ Estimated Native C++20 SDK Speed on this CPU: ~${Math.round(finalM*6.4).toLocaleString()} PTS (6.4x Faster)`;
 document.getElementById('shareBtn').style.display='block';
-renderBoard(finalM);
+renderBoard(finalM,document.getElementById('brandSearch').value);
 },60);
 });
 document.getElementById('shareBtn').addEventListener('click',function(){
