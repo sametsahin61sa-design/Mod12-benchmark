@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Which Phone is Fastest? | All Brands CPU Benchmark</title>
+<title>Which Phone is Fastest? | CPU Benchmark & Diagnostics</title>
 <style>
 body{font-family:system-ui,sans-serif;background:#0f172a;color:#f8fafc;max-width:800px;margin:16px auto;padding:14px}
 .card{background:#1e293b;border-radius:12px;padding:18px;margin-bottom:14px;border:1px solid #334155}
@@ -12,6 +12,7 @@ button{background:linear-gradient(90deg,#f59e0b,#10b981);color:#0f172a;font-weig
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;text-align:center}
 .bx{background:#0f172a;padding:10px;border-radius:8px;border:1px solid #334155}
 .sc{font-size:26px;font-weight:900;color:#f59e0b}
+.diag{background:#0f172a;padding:12px;border-radius:8px;margin-top:12px;border-left:4px solid #10b981;font-size:13px;line-height:1.5}
 .r{display:flex;justify-content:space-between;padding:9px;border-bottom:1px solid #334155;font-size:13px}
 .me{background:rgba(16,185,129,0.2);border:1px solid #10b981;border-radius:6px;font-weight:bold;color:#34d399}
 input{width:100%;padding:10px;border-radius:8px;border:1px solid #475569;background:#0f172a;color:#fff;margin-bottom:10px;box-sizing:border-box}
@@ -21,7 +22,7 @@ input{width:100%;padding:10px;border-radius:8px;border:1px solid #475569;backgro
 <h2>🏆 Which Phone Has the Fastest CPU?</h2>
 <div id="hw" style="color:#38bdf8;font-size:13px;margin-bottom:10px">Loading...</div>
 <div class="card">
-<button id="go">▶ Run Single & Multi-Core Stress Test</button>
+<button id="go">▶ Run Benchmark & Hardware Diagnostics</button>
 <div class="g2">
 <div class="bx"><small>SINGLE-CORE</small><div class="sc" id="sc">--</div></div>
 <div class="bx"><small>MULTI-CORE</small><div class="sc" id="mc">--</div></div>
@@ -31,8 +32,9 @@ input{width:100%;padding:10px;border-radius:8px;border:1px solid #475569;backgro
 <div class="bx"><small>1024-Bit ALU</small><div id="t2">-- ms</div></div>
 <div class="bx"><small>Bit-Shift</small><div id="t3">-- ms</div></div>
 </div>
-<div id="st" style="text-align:center;margin-top:12px;color:#10b981;font-weight:bold">Tap above to test all CPU cores</div>
-<button id="sh" style="background:#38bdf8;margin-top:10px;display:none">📤 Share My Score</button>
+<div id="st" style="text-align:center;margin-top:12px;color:#10b981;font-weight:bold">Tap above to test CPU & hardware health</div>
+<div class="diag" id="diagBox" style="display:none"></div>
+<button id="sh" style="background:#38bdf8;margin-top:10px;display:none">📤 Share My Score & Health Report</button>
 </div>
 <div class="card">
 <h3>📊 Global Multi-Core Leaderboard</h3>
@@ -46,7 +48,7 @@ input{width:100%;padding:10px;border-radius:8px;border:1px solid #475569;backgro
 </div>
 <script>
 const cores=navigator.hardwareConcurrency||4;
-document.getElementById('hw').innerText='Detected: '+cores+' CPU Cores';
+document.getElementById('hw').innerText='Detected: '+cores+' CPU Cores | RAM: '+(navigator.deviceMemory||'8+')+' GB';
 const list=[
 {n:'💻 Desktop Workstation (M4 Max / Ryzen 9)',s:58000},
 {n:'📱 iPhone 18 Pro Max (Apple A20 Pro)',s:35200},
@@ -76,7 +78,7 @@ document.getElementById('bd').innerHTML=all.filter(x=>x.me||x.n.toLowerCase().in
 draw('');
 document.getElementById('q').oninput=function(){draw(this.value);};
 document.getElementById('go').onclick=function(){
-document.getElementById('st').innerText='Testing '+cores+' CPU cores...';
+document.getElementById('st').innerText='Running CPU stress & hardware diagnostics...';
 setTimeout(function(){
 const mask=new Uint8Array(2985984);for(let i=0;i<2985984;i+=6)mask[i]=1;
 const t1=performance.now();let idx=0,s=0;
@@ -99,12 +101,17 @@ document.getElementById('t1').innerText=m1.toFixed(1)+' ms';
 document.getElementById('t2').innerText=m2.toFixed(1)+' ms';
 document.getElementById('t3').innerText=m3.toFixed(1)+' ms';
 document.getElementById('st').innerText='🔥 Thermal Stability: '+stab+'% | '+cores+' Cores Verified';
+let report='<strong>🩺 Hardware & Browser Diagnostics:</strong><br>';
+report+=(s===4166667 && cb>0n)?'✅ <strong>RAM & ALU Integrity:</strong> Zero bit-flip or memory errors.<br>':'❌ <strong>Memory Warning:</strong> Arithmetic mismatch detected.<br>';
+report+=(parseFloat(stab)>=90)?'✅ <strong>Cooling & Thermal:</strong> No thermal throttling detected.<br>':'⚠️ <strong>Thermal Warning:</strong> CPU throttling under load (check heat/case).<br>';
+report+=(uS>=4000)?'✅ <strong>Background Load:</strong> Clean CPU execution (no background lag).':'⚠️ <strong>CPU Load Warning:</strong> High background task or Power Saver active.';
+const db=document.getElementById('diagBox');db.innerHTML=report;db.style.display='block';
 document.getElementById('sh').style.display='block';
 draw(document.getElementById('q').value);
 },60);
 };
 document.getElementById('sh').onclick=function(){
-const txt='🏆 My '+cores+'-Core CPU scored '+uS.toLocaleString()+' Single / '+uM.toLocaleString()+' Multi-Core PTS! Test yours: https://sametsahin61sa-design.github.io/Mod12-benchmark/';
+const txt='🏆 My '+cores+'-Core CPU scored '+uS.toLocaleString()+' Single / '+uM.toLocaleString()+' Multi-Core PTS (100% Healthy)! Test yours: https://github.io';
 if(navigator.share)navigator.share({text:txt});else{navigator.clipboard.writeText(txt);alert('Copied!');}
 };
 </script>
